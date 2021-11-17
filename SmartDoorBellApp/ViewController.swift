@@ -14,7 +14,8 @@ class ViewController: UIViewController {
     var ref: DatabaseReference!
 
  
-
+    @IBOutlet var testeLabel: UILabel!
+    
 
     override func viewDidLoad() {
         super.viewDidLoad()
