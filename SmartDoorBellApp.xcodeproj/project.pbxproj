@@ -15,6 +15,7 @@
 		C07B6A672742B1BC001B4CD9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C07B6A662742B1BC001B4CD9 /* Assets.xcassets */; };
 		C07B6A6A2742B1BC001B4CD9 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C07B6A682742B1BC001B4CD9 /* LaunchScreen.storyboard */; };
 		C07B6A762742B239001B4CD9 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C07B6A752742B239001B4CD9 /* GoogleService-Info.plist */; };
+		C0E330C1275A3DE500925283 /* LiveStreamViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0E330C0275A3DE400925283 /* LiveStreamViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -30,6 +31,7 @@
 		C07B6A692742B1BC001B4CD9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		C07B6A6B2742B1BC001B4CD9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C07B6A752742B239001B4CD9 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
+		C0E330C0275A3DE400925283 /* LiveStreamViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveStreamViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -50,7 +52,6 @@
 				2B45A3895E9BD8EBCB1717C0 /* Pods-SmartDoorBellApp.debug.xcconfig */,
 				8E0E630434E42524DF48080C /* Pods-SmartDoorBellApp.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -91,6 +92,7 @@
 				C07B6A662742B1BC001B4CD9 /* Assets.xcassets */,
 				C07B6A682742B1BC001B4CD9 /* LaunchScreen.storyboard */,
 				C07B6A6B2742B1BC001B4CD9 /* Info.plist */,
+				C0E330C0275A3DE400925283 /* LiveStreamViewController.swift */,
 			);
 			path = SmartDoorBellApp;
 			sourceTree = "<group>";
@@ -211,6 +213,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C0E330C1275A3DE500925283 /* LiveStreamViewController.swift in Sources */,
 				C07B6A622742B1BA001B4CD9 /* ViewController.swift in Sources */,
 				C07B6A5E2742B1BA001B4CD9 /* AppDelegate.swift in Sources */,
 				C07B6A602742B1BA001B4CD9 /* SceneDelegate.swift in Sources */,
@@ -363,6 +366,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = WUHX779X25;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = SmartDoorBellApp/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -391,6 +395,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = WUHX779X25;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = SmartDoorBellApp/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
