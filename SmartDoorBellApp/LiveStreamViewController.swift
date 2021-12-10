@@ -18,9 +18,13 @@ class LiveStreamViewController: UIViewController, WKNavigationDelegate{
     
     var ref: DatabaseReference!
     
-    let url = URL(string: "http://10.20.246.120:8080/?action=stream")!
+    @IBOutlet var switchOutlet: UISwitch!
+    @IBOutlet var live: WKWebView!
+    
+    let url = URL(string: "http://10.20.246.120:8080/?action=stream")! //http://10.20.246.120:8080/?action=stream")!
     
     
+    @IBOutlet var messageTextField: UITextField!
     
     var viewWebLive: WKWebView! /*{
         didSet {
@@ -68,19 +72,52 @@ class LiveStreamViewController: UIViewController, WKNavigationDelegate{
     
     override func viewDidLoad() {
            super.viewDidLoad()
-        viewWebLive = WKWebView(frame: CGRect( x: 0, y: 50, width: self.view.frame.width, height: self.view.frame.height - 350 ), configuration: WKWebViewConfiguration() )
+        /*
+        viewWebLive = WKWebView(frame: CGRect( x: 0, y: 50, width: self.view.frame.width, height: self.view.frame.height - 420 /*350*/ ), configuration: WKWebViewConfiguration() )
            self.view.addSubview(viewWebLive)
         viewWebLive.load(URLRequest(url: url))
-           self.viewWebLive.allowsBackForwardNavigationGestures = true
+           self.viewWebLive.allowsBackForwardNavigationGestures = true*/
+        
+        
+           //self.view.addSubview(viewWebLive)
+        live.load(URLRequest(url: url))
+        live.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        live.allowsBackForwardNavigationGestures = true
+        live.navigationDelegate = self
     }
     
     @IBAction func sendMessageButton(_ sender: Any) {
         
+        let text: String = messageTextField.text!
+        
+        print(text)
+        
         ref = Database.database().reference().child("Audio")//child("Leds/led1")
         
         ref.updateChildValues([
-            "value": 1
+            "value": 1,
+            "phrase": text
         ])
+       
+       
+        
+    }
+    @IBAction func switchDoor(_ sender: UISwitch) {
+        ref = Database.database().reference().child("Door")//child("Leds/led1")
+        
+        if switchOutlet.isOn {
+            ref.updateChildValues([
+                "value": 1
+            ])
+            switchOutlet.setOn(true, animated:true)
+            self.showToast(message: "Door Opened", font: .systemFont(ofSize: 12.0))
+        } else {
+            ref.updateChildValues([
+                "value": 0
+            ])
+            switchOutlet.setOn(false, animated:true)
+            self.showToast(message: "Door Closed", font: .systemFont(ofSize: 12.0))
+        }
        
     }
     /*
@@ -120,5 +157,26 @@ class LiveStreamViewController: UIViewController, WKNavigationDelegate{
         // Pass the selected object to the new view controller.
     }
     */
+    
+    
+
+    func showToast(message : String, font: UIFont) {
+
+        let toastLabel = UILabel(frame: CGRect(x: self.view.frame.size.width/2 - 75, y: self.view.frame.size.height-150, width: 150, height: 35))
+        toastLabel.backgroundColor = UIColor.black.withAlphaComponent(0.6)
+        toastLabel.textColor = UIColor.white
+        toastLabel.font = font
+        toastLabel.textAlignment = .center;
+        toastLabel.text = message
+        toastLabel.alpha = 1.0
+        toastLabel.layer.cornerRadius = 10;
+        toastLabel.clipsToBounds  =  true
+        self.view.addSubview(toastLabel)
+        UIView.animate(withDuration: 6.0, delay: 0.1, options: .curveEaseOut, animations: {
+             toastLabel.alpha = 0.0
+        }, completion: {(isCompleted) in
+            toastLabel.removeFromSuperview()
+        })
+    }
 
 }

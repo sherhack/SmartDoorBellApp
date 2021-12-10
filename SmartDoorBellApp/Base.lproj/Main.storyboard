@@ -78,24 +78,75 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MSG-6e-Alx">
-                                <rect key="frame" x="174" y="639" width="67" height="63"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="plain" title="Button"/>
-                                <connections>
-                                    <action selector="sendMessageButton:" destination="g3u-vS-gAi" eventType="touchUpInside" id="7uM-CM-dZe"/>
-                                </connections>
-                            </button>
+                            <wkWebView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3q4-Rx-Nar">
+                                <rect key="frame" x="0.0" y="88" width="414" height="362"/>
+                                <color key="backgroundColor" red="0.36078431370000003" green="0.38823529410000002" blue="0.4039215686" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <wkWebViewConfiguration key="configuration">
+                                    <audiovisualMediaTypes key="mediaTypesRequiringUserActionForPlayback" none="YES"/>
+                                    <wkPreferences key="preferences"/>
+                                </wkWebViewConfiguration>
+                            </wkWebView>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="2" translatesAutoresizingMaskIntoConstraints="NO" id="cLK-D1-ZaS">
+                                <rect key="frame" x="10" y="550" width="394" height="163"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Costum Message" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HYQ-m4-7WA">
+                                        <rect key="frame" x="0.0" y="0.0" width="394" height="31"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Write something..." textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="IG5-3z-6Ej">
+                                        <rect key="frame" x="0.0" y="33" width="394" height="31"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits"/>
+                                    </textField>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MSG-6e-Alx">
+                                        <rect key="frame" x="0.0" y="66" width="394" height="31"/>
+                                        <state key="normal" title="Button"/>
+                                        <buttonConfiguration key="configuration" style="plain" title="Send" titleAlignment="center"/>
+                                        <connections>
+                                            <action selector="sendMessageButton:" destination="g3u-vS-gAi" eventType="touchUpInside" id="7uM-CM-dZe"/>
+                                        </connections>
+                                    </button>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Open Door" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="T9F-3U-0zZ">
+                                        <rect key="frame" x="0.0" y="99" width="394" height="31"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="trailing" contentVerticalAlignment="center" preferredStyle="sliding" translatesAutoresizingMaskIntoConstraints="NO" id="MZT-0S-Y02">
+                                        <rect key="frame" x="0.0" y="132" width="396" height="31"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <connections>
+                                            <action selector="switchDoor:" destination="g3u-vS-gAi" eventType="valueChanged" id="Snd-8E-a7u"/>
+                                        </connections>
+                                    </switch>
+                                </subviews>
+                            </stackView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="7Fo-Fg-pcu"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="cLK-D1-ZaS" firstAttribute="centerX" secondItem="dqK-0N-Zhm" secondAttribute="centerX" id="8Ff-hj-1FE"/>
+                            <constraint firstItem="3q4-Rx-Nar" firstAttribute="trailing" secondItem="7Fo-Fg-pcu" secondAttribute="trailing" id="IYd-Gb-mnI"/>
+                            <constraint firstItem="3q4-Rx-Nar" firstAttribute="leading" secondItem="7Fo-Fg-pcu" secondAttribute="leading" id="QVf-8K-txY"/>
+                            <constraint firstItem="3q4-Rx-Nar" firstAttribute="top" secondItem="7Fo-Fg-pcu" secondAttribute="top" id="VPt-g4-Tjw"/>
+                            <constraint firstItem="cLK-D1-ZaS" firstAttribute="top" secondItem="3q4-Rx-Nar" secondAttribute="bottom" constant="100" id="cIo-2o-rtl"/>
+                            <constraint firstItem="cLK-D1-ZaS" firstAttribute="leading" secondItem="3q4-Rx-Nar" secondAttribute="leading" constant="10" id="eay-Jk-gEf"/>
+                            <constraint firstItem="7Fo-Fg-pcu" firstAttribute="bottom" secondItem="cLK-D1-ZaS" secondAttribute="bottom" constant="100" id="v6e-So-ojb"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Live Camera" id="uSP-jv-AmW"/>
+                    <connections>
+                        <outlet property="live" destination="3q4-Rx-Nar" id="fDT-KI-AH8"/>
+                        <outlet property="messageTextField" destination="IG5-3z-6Ej" id="fUW-R3-OMY"/>
+                        <outlet property="switchOutlet" destination="MZT-0S-Y02" id="y0G-iw-s6C"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="kbx-ju-SfE" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-60.869565217391312" y="778.79464285714278"/>
+            <point key="canvasLocation" x="-60.9375" y="778.26086956521749"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="rAz-11-hes">
