@@ -12,6 +12,7 @@ import FirebaseDatabase
 import AVKit
 import AVFoundation
 //Comment hi dude
+//Comment hi dude - Rafael 
 class ViewController: UIViewController{
 
     var ref: DatabaseReference!
