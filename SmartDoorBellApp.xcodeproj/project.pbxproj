@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		A34A660762D91B7134BCC688 /* Pods_SmartDoorBellApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 794E91C9A6888E5BC7822CC4 /* Pods_SmartDoorBellApp.framework */; };
+		C04A9DD227693557009257AE /* NotificationsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C04A9DD127693557009257AE /* NotificationsTableViewCell.swift */; };
+		C04A9DD427693724009257AE /* NotificationsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C04A9DD327693724009257AE /* NotificationsTableViewController.swift */; };
+		C04A9DD8276A2E2E009257AE /* StructTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C04A9DD7276A2E2D009257AE /* StructTest.swift */; };
 		C07B6A5E2742B1BA001B4CD9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C07B6A5D2742B1BA001B4CD9 /* AppDelegate.swift */; };
 		C07B6A602742B1BA001B4CD9 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C07B6A5F2742B1BA001B4CD9 /* SceneDelegate.swift */; };
 		C07B6A622742B1BA001B4CD9 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C07B6A612742B1BA001B4CD9 /* ViewController.swift */; };
@@ -22,6 +25,9 @@
 		2B45A3895E9BD8EBCB1717C0 /* Pods-SmartDoorBellApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SmartDoorBellApp.debug.xcconfig"; path = "Target Support Files/Pods-SmartDoorBellApp/Pods-SmartDoorBellApp.debug.xcconfig"; sourceTree = "<group>"; };
 		794E91C9A6888E5BC7822CC4 /* Pods_SmartDoorBellApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SmartDoorBellApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8E0E630434E42524DF48080C /* Pods-SmartDoorBellApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SmartDoorBellApp.release.xcconfig"; path = "Target Support Files/Pods-SmartDoorBellApp/Pods-SmartDoorBellApp.release.xcconfig"; sourceTree = "<group>"; };
+		C04A9DD127693557009257AE /* NotificationsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsTableViewCell.swift; sourceTree = "<group>"; };
+		C04A9DD327693724009257AE /* NotificationsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsTableViewController.swift; sourceTree = "<group>"; };
+		C04A9DD7276A2E2D009257AE /* StructTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StructTest.swift; sourceTree = "<group>"; };
 		C07B6A5A2742B1BA001B4CD9 /* SmartDoorBellApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SmartDoorBellApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C07B6A5D2742B1BA001B4CD9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C07B6A5F2742B1BA001B4CD9 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -93,6 +99,9 @@
 				C07B6A682742B1BC001B4CD9 /* LaunchScreen.storyboard */,
 				C07B6A6B2742B1BC001B4CD9 /* Info.plist */,
 				C0E330C0275A3DE400925283 /* LiveStreamViewController.swift */,
+				C04A9DD127693557009257AE /* NotificationsTableViewCell.swift */,
+				C04A9DD327693724009257AE /* NotificationsTableViewController.swift */,
+				C04A9DD7276A2E2D009257AE /* StructTest.swift */,
 			);
 			path = SmartDoorBellApp;
 			sourceTree = "<group>";
@@ -109,6 +118,7 @@
 				C07B6A572742B1BA001B4CD9 /* Frameworks */,
 				C07B6A582742B1BA001B4CD9 /* Resources */,
 				C6602124630E339D44E3830D /* [CP] Embed Pods Frameworks */,
+				9D0C2A8C2C6F145ADE21E561 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -189,6 +199,23 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
+		9D0C2A8C2C6F145ADE21E561 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-SmartDoorBellApp/Pods-SmartDoorBellApp-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-SmartDoorBellApp/Pods-SmartDoorBellApp-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-SmartDoorBellApp/Pods-SmartDoorBellApp-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		C6602124630E339D44E3830D /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -215,8 +242,11 @@
 			files = (
 				C0E330C1275A3DE500925283 /* LiveStreamViewController.swift in Sources */,
 				C07B6A622742B1BA001B4CD9 /* ViewController.swift in Sources */,
+				C04A9DD8276A2E2E009257AE /* StructTest.swift in Sources */,
+				C04A9DD427693724009257AE /* NotificationsTableViewController.swift in Sources */,
 				C07B6A5E2742B1BA001B4CD9 /* AppDelegate.swift in Sources */,
 				C07B6A602742B1BA001B4CD9 /* SceneDelegate.swift in Sources */,
+				C04A9DD227693557009257AE /* NotificationsTableViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

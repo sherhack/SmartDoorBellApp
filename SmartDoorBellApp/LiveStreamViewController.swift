@@ -16,75 +16,67 @@ import FirebaseDatabase
 
 class LiveStreamViewController: UIViewController, WKNavigationDelegate{
     
-    var ref: DatabaseReference!
+  
+    var ref: DatabaseReference! = Database.database().reference()
+
     
     @IBOutlet var switchOutlet: UISwitch!
     @IBOutlet var live: WKWebView!
     
-    let url = URL(string: "http://10.20.246.120:8080/?action=stream")! //http://10.20.246.120:8080/?action=stream")!
+    //let url = URL(string: "http://10.20.246.120:8080/?action=stream")!
     
     
     @IBOutlet var messageTextField: UITextField!
     
-    var viewWebLive: WKWebView! /*{
-        didSet {
-            let refreshControl = UIRefreshControl()
-            refreshControl.addTarget(self, action: #selector(reload(_:)), for: .valueChanged)
-            viewWebLive.scrollView.refreshControl = refreshControl
-        }
-       
+    var viewWebLive: WKWebView!
+    
+    
+    
+  
+    /*
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        ref.child("RaspberryIP").observeSingleEvent(of: .value, with: { snapshot in
+            
+            let value = snapshot.value as? NSDictionary
+            let ip = value?["value"] as? String ?? ""
+            print("Value: \(ip)")
+            
+            let url = URL(string: "http://\(ip):8080/?action=stream")!
+        
+            self.live.load(URLRequest(url: url))
+            self.live.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+            self.live.allowsBackForwardNavigationGestures = true
+            self.live.navigationDelegate = self
+        });
+        
     }*/
-    
-    
     
     /*
-    override func loadView() {
-      /*
-        let webConfiguration = WKWebViewConfiguration()
-             webView = WKWebView(frame: .zero, configuration: webConfiguration)
-             webView.uiDelegate = self
-             view = webView
-       */
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        reload()
         
-        viewWebLive = WKWebView()
-        viewWebLive.navigationDelegate = self
-        view = viewWebLive
-        
-        
-    }*/
-    /*
-    override func viewDidLoad() {
-        super.viewDidLoad()
-            
-        let url = URL(string: "http://10.20.246.120:8080/?action=stream")!
-       
-         viewWebLive.load(URLRequest(url: url))
-         viewWebLive.allowsBackForwardNavigationGestures = true
-       
-        /*
-        let myURL = URL(string:"http://10.20.246.120:8080/?action=stream")
-               let myRequest = URLRequest(url: myURL!)
-               webView.load(myRequest)
-            
-        }*/
-     
     }*/
     
-    override func viewDidLoad() {
-           super.viewDidLoad()
-        /*
-        viewWebLive = WKWebView(frame: CGRect( x: 0, y: 50, width: self.view.frame.width, height: self.view.frame.height - 420 /*350*/ ), configuration: WKWebViewConfiguration() )
-           self.view.addSubview(viewWebLive)
-        viewWebLive.load(URLRequest(url: url))
-           self.viewWebLive.allowsBackForwardNavigationGestures = true*/
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        ref.child("RaspberryIP").observeSingleEvent(of: .value, with: { snapshot in
+            
+            let value = snapshot.value as? NSDictionary
+            let ip = value?["value"] as? String ?? ""
+            print("Value: \(ip)")
+            
+            let url = URL(string: "http://\(ip):8080/?action=stream")!
         
-        
-           //self.view.addSubview(viewWebLive)
-        live.load(URLRequest(url: url))
-        live.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        live.allowsBackForwardNavigationGestures = true
-        live.navigationDelegate = self
+            self.live.load(URLRequest(url: url))
+            self.live.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+            self.live.allowsBackForwardNavigationGestures = true
+            self.live.navigationDelegate = self
+        });
+        reload()
     }
+  
     
     @IBAction func sendMessageButton(_ sender: Any) {
         
@@ -92,7 +84,7 @@ class LiveStreamViewController: UIViewController, WKNavigationDelegate{
         
         print(text)
         
-        ref = Database.database().reference().child("Audio")//child("Leds/led1")
+        ref.child("Audio")//child("Leds/led1")
         
         ref.updateChildValues([
             "value": 1,
@@ -103,7 +95,8 @@ class LiveStreamViewController: UIViewController, WKNavigationDelegate{
         
     }
     @IBAction func switchDoor(_ sender: UISwitch) {
-        ref = Database.database().reference().child("Door")//child("Leds/led1")
+        ref.child("Door")//child("Leds/led1")
+    
         
         if switchOutlet.isOn {
             ref.updateChildValues([
@@ -120,32 +113,8 @@ class LiveStreamViewController: UIViewController, WKNavigationDelegate{
         }
        
     }
-    /*
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
+   
 
-        reloadData()
-    }
-
-    func reloadData() {
-        //All you need to update
-        
-    }*/
-    
-    /*
-    func reloadButtonDidTap(_ url : URL) {
-        if viewWebLive.url != nil {
-            viewWebLive.reload()
-        } else {
-            viewWebLive.load(URLRequest(url: url))
-        }
-    }*/
-    
-    /*
-    @objc private func reload(_ refreshControl: UIRefreshControl) {
-        refreshControl.endRefreshing()
-        viewWebLive.reload()
-    }*/
 
   
     /*
@@ -158,7 +127,12 @@ class LiveStreamViewController: UIViewController, WKNavigationDelegate{
     }
     */
     
-    
+    func reload() {
+        ref.child("Refresh")//child("Leds/led1")
+        ref.observe(DataEventType.childChanged) { DataSnapshot in
+            self.live.reload()
+        }
+    }
 
     func showToast(message : String, font: UIFont) {
 
