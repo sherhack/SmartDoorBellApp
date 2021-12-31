@@ -19,6 +19,8 @@ class NotificationsTableViewController: UITableViewController {
     
     
     private var number: Int = 0
+    
+    fileprivate var numberOfRows: Int?
   
     
     
@@ -41,7 +43,17 @@ class NotificationsTableViewController: UITableViewController {
   
     
     var yourArray = [StorageReference]()
-    var itemsArray:Int? = nil
+    
+    var itemsArray = [StorageReference]()
+    
+    var itemsArray1 = [StorageReference]()
+   
+    //var itemsArray:Int? = nil
+    
+    
+    var result2: Int = 0
+    
+    var result3: Int = 0
     
     
     override func viewDidLoad() {
@@ -55,9 +67,46 @@ class NotificationsTableViewController: UITableViewController {
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem
     
-        
+        /*Task(priority: .medium) {
+           do {
+               let result = try await saveChanges()
+               print(result)
+           } catch {
+               print(error)
+           }
+        }*/
        
     }
+    /*
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        Task(priority: .medium) {
+           do {
+               let result = try await saveChanges()
+               print(result)
+           } catch {
+               print(error)
+           }
+        }
+    }*/
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        self.storage.reference().child("images").listAll(completion: {
+                 (result,error) in
+                   print("result is \(result.items)")
+                    self.itemsArray = result.items
+                             DispatchQueue.main.async {
+                               self.itemsArray.forEach({ (refer) in
+                                   self.itemsArray1.append((refer))
+                               })
+                             }
+                         })
+    }
+        
+      
+    
     
 
 
@@ -73,22 +122,11 @@ class NotificationsTableViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        /*
-        if let unwrappdStorageRef = storageRef {
-            unwrappdStorageRef.listAll { [self] (result, error) in
-                if let error = error {
-                    print(error)
-                }
-                for item in result.items {
-                    guard var image: StorageReference? = item else { return }
-                    self.yourArray.append(image!)
-                }
-            }
-        }*/
         
-        return 3
+        return itemsArray1.count
         
     }
+    
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Item", for: indexPath) as! NotificationsTableViewCell
@@ -100,12 +138,12 @@ class NotificationsTableViewController: UITableViewController {
         
        
         
-        if let unwrappedPublicationYear = storageRef {
-            unwrappedPublicationYear.listAll { [self] (result, error) in
+        if let unwrappedStorage = storageRef {
+            unwrappedStorage.listAll { [self] (result, error) in
                 if let error = error {
                     print(error)
                 }
-                result.items.count
+                //result.items.count
                 for prefix in result.prefixes {
                     // The prefixes under storageReference.
                     // You may call listAll(completion:) recursively on them.
@@ -115,9 +153,10 @@ class NotificationsTableViewController: UITableViewController {
                     // The items under storageReference.
                     print("ITEMMMMM: \(item)")
                     //var image: StorageReference?
-                    guard var image: StorageReference? = item else { return }
+                    guard let image: StorageReference? = item else { return }
                     //print("AHAHAHAHAHHAHAAAH: \(String(describing: image?.name.suffix(29)))")
-                    var name = String(describing: image?.name.suffix(29))
+                    
+                    let name = String(describing: image!.name.suffix(29))
                     
                     arrayNames.append(name)
                     //var year = name[NSRange(location: 7, length: 4)]
@@ -125,9 +164,11 @@ class NotificationsTableViewController: UITableViewController {
                     
                     yourArray.append(image!)
                 }
-                cell.titleText.text = arrayNames[indexPath.row]
-                cell.descText.text = arrayYears[indexPath.row]
-                cell.personImage.sd_setImage(with: yourArray.first!)
+                cell.titleText.text = arrayYears[indexPath.row]
+                
+                cell.personImage.sd_setImage(with: result.items[indexPath.row])
+                self.numberOfRows = yourArray.count
+            
             }
             
         }

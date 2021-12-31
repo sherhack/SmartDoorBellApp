@@ -6,15 +6,30 @@
 //
 
 import Foundation
+import Firebase
+import FirebaseDatabase
+import FirebaseStorage
+import FirebaseStorageUI
 
-struct Test {
-    var age: Int?
-    var members:Int? {
-        get {
-          return age
-        }
-    }
 
+
+struct DocumentLoader {
     
-  
+    var storage: Storage!
+
+    lazy var storageRef:StorageReference? = {
+        return self.storage.reference().child("images")
+    }()
+    
+
+    mutating func loadDocument() async throws -> Int {
+       
+        var sot = try await storageRef!.listAll().items.count
+        
+        if sot == 0 {
+            throw fatalError("csdc")
+        }
+       
+        return sot
+    }
 }

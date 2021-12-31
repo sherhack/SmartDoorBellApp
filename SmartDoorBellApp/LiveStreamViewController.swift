@@ -23,13 +23,14 @@ class LiveStreamViewController: UIViewController, WKNavigationDelegate{
     @IBOutlet var switchOutlet: UISwitch!
     @IBOutlet var live: WKWebView!
     
+    var screenShot = UIImage()
+    
     //let url = URL(string: "http://10.20.246.120:8080/?action=stream")!
     
     
     @IBOutlet var messageTextField: UITextField!
     
     var viewWebLive: WKWebView!
-    
     
     
   
@@ -114,18 +115,6 @@ class LiveStreamViewController: UIViewController, WKNavigationDelegate{
        
     }
    
-
-
-  
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
     
     func reload() {
         ref.child("Refresh")//child("Leds/led1")
@@ -152,5 +141,52 @@ class LiveStreamViewController: UIViewController, WKNavigationDelegate{
             toastLabel.removeFromSuperview()
         })
     }
+    
+    
+    /*
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        DispatchQueue.main.asyncAfter(deadline:.now() + 5.0, execute: {
+            
+            if segue.identifier == "ShowOcrView",
+                let destinationVC = segue.destination as? TextRecognitionViewController {
+                destinationVC.jj = self.screenShot
+            }
+    
+        })
+    }*/
+    
+   //layer.frame.size
+   
+    
+    func captureScreenshot() -> UIImage! {
+        let layer = UIApplication.shared.keyWindow!.layer
+        let scale = UIScreen.main.scale
+        // Creates UIImage of same size as view
+        UIGraphicsBeginImageContextWithOptions(CGSize(width: layer.bounds.width, height: 362), false, scale);
 
+        layer.render(in: UIGraphicsGetCurrentContext()!)
+        let screenshot = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        // THIS IS TO SAVE SCREENSHOT TO PHOTOS
+        UIImageWriteToSavedPhotosAlbum(screenshot!, nil, nil, nil)
+        
+        return screenshot
+    }
+    
+    
+    @IBAction func takeScreenShotAndSave(_ sender: Any) {
+        screenShot = self.captureScreenshot()
+        
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+            
+            let vc = self.storyboard?.instantiateViewController(withIdentifier: "ocrView") as! TextRecognitionViewController
+            
+            vc.imageRecieved = self.screenShot
+            
+            self.navigationController?.pushViewController(vc, animated: true)
+        }
+       
+    }
+    
 }

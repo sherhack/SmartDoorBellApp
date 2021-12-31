@@ -11,6 +11,7 @@
 		C04A9DD227693557009257AE /* NotificationsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C04A9DD127693557009257AE /* NotificationsTableViewCell.swift */; };
 		C04A9DD427693724009257AE /* NotificationsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C04A9DD327693724009257AE /* NotificationsTableViewController.swift */; };
 		C04A9DD8276A2E2E009257AE /* StructTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C04A9DD7276A2E2D009257AE /* StructTest.swift */; };
+		C04A9DDC276BE214009257AE /* TextRecognitionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C04A9DDB276BE214009257AE /* TextRecognitionViewController.swift */; };
 		C07B6A5E2742B1BA001B4CD9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C07B6A5D2742B1BA001B4CD9 /* AppDelegate.swift */; };
 		C07B6A602742B1BA001B4CD9 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C07B6A5F2742B1BA001B4CD9 /* SceneDelegate.swift */; };
 		C07B6A622742B1BA001B4CD9 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C07B6A612742B1BA001B4CD9 /* ViewController.swift */; };
@@ -18,6 +19,7 @@
 		C07B6A672742B1BC001B4CD9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C07B6A662742B1BC001B4CD9 /* Assets.xcassets */; };
 		C07B6A6A2742B1BC001B4CD9 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C07B6A682742B1BC001B4CD9 /* LaunchScreen.storyboard */; };
 		C07B6A762742B239001B4CD9 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C07B6A752742B239001B4CD9 /* GoogleService-Info.plist */; };
+		C080D08E2771302C00790982 /* Ocr3DViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C080D08D2771302C00790982 /* Ocr3DViewController.swift */; };
 		C0E330C1275A3DE500925283 /* LiveStreamViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0E330C0275A3DE400925283 /* LiveStreamViewController.swift */; };
 /* End PBXBuildFile section */
 
@@ -28,6 +30,7 @@
 		C04A9DD127693557009257AE /* NotificationsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsTableViewCell.swift; sourceTree = "<group>"; };
 		C04A9DD327693724009257AE /* NotificationsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsTableViewController.swift; sourceTree = "<group>"; };
 		C04A9DD7276A2E2D009257AE /* StructTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StructTest.swift; sourceTree = "<group>"; };
+		C04A9DDB276BE214009257AE /* TextRecognitionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextRecognitionViewController.swift; sourceTree = "<group>"; };
 		C07B6A5A2742B1BA001B4CD9 /* SmartDoorBellApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SmartDoorBellApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C07B6A5D2742B1BA001B4CD9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C07B6A5F2742B1BA001B4CD9 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -37,6 +40,7 @@
 		C07B6A692742B1BC001B4CD9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		C07B6A6B2742B1BC001B4CD9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C07B6A752742B239001B4CD9 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
+		C080D08D2771302C00790982 /* Ocr3DViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Ocr3DViewController.swift; sourceTree = "<group>"; };
 		C0E330C0275A3DE400925283 /* LiveStreamViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveStreamViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -95,6 +99,7 @@
 				C07B6A5F2742B1BA001B4CD9 /* SceneDelegate.swift */,
 				C07B6A612742B1BA001B4CD9 /* ViewController.swift */,
 				C07B6A632742B1BA001B4CD9 /* Main.storyboard */,
+				C04A9DDB276BE214009257AE /* TextRecognitionViewController.swift */,
 				C07B6A662742B1BC001B4CD9 /* Assets.xcassets */,
 				C07B6A682742B1BC001B4CD9 /* LaunchScreen.storyboard */,
 				C07B6A6B2742B1BC001B4CD9 /* Info.plist */,
@@ -102,6 +107,7 @@
 				C04A9DD127693557009257AE /* NotificationsTableViewCell.swift */,
 				C04A9DD327693724009257AE /* NotificationsTableViewController.swift */,
 				C04A9DD7276A2E2D009257AE /* StructTest.swift */,
+				C080D08D2771302C00790982 /* Ocr3DViewController.swift */,
 			);
 			path = SmartDoorBellApp;
 			sourceTree = "<group>";
@@ -243,6 +249,8 @@
 				C0E330C1275A3DE500925283 /* LiveStreamViewController.swift in Sources */,
 				C07B6A622742B1BA001B4CD9 /* ViewController.swift in Sources */,
 				C04A9DD8276A2E2E009257AE /* StructTest.swift in Sources */,
+				C04A9DDC276BE214009257AE /* TextRecognitionViewController.swift in Sources */,
+				C080D08E2771302C00790982 /* Ocr3DViewController.swift in Sources */,
 				C04A9DD427693724009257AE /* NotificationsTableViewController.swift in Sources */,
 				C07B6A5E2742B1BA001B4CD9 /* AppDelegate.swift in Sources */,
 				C07B6A602742B1BA001B4CD9 /* SceneDelegate.swift in Sources */,
@@ -399,6 +407,7 @@
 				DEVELOPMENT_TEAM = WUHX779X25;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = SmartDoorBellApp/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
@@ -428,6 +437,7 @@
 				DEVELOPMENT_TEAM = WUHX779X25;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = SmartDoorBellApp/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;

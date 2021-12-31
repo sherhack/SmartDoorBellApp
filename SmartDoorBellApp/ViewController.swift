@@ -20,6 +20,7 @@ import AVFoundation
 class ViewController: UIViewController{
 
     var ref: DatabaseReference!
+   
     
     @IBOutlet var labelDate: UILabel!
     
@@ -48,6 +49,9 @@ class ViewController: UIViewController{
         if isCosed == true {
             ref = Database.database().reference().child("Door")//child("Leds/led1")
             
+            Database.database().isPersistenceEnabled = true
+            ref.keepSynced(true)
+            
             ref.updateChildValues([
                 "value": 1
             ])
@@ -56,6 +60,9 @@ class ViewController: UIViewController{
             isCosed = false
         } else {
             ref = Database.database().reference().child("Door")//child("Leds/led1")
+            
+            Database.database().isPersistenceEnabled = true
+            ref.keepSynced(true)
             
             ref.updateChildValues([
                 "value": 0
@@ -71,6 +78,9 @@ class ViewController: UIViewController{
         if isLightOff == true {
             ref = Database.database().reference().child("Light")
             
+            Database.database().isPersistenceEnabled = true
+            ref.keepSynced(true)
+            
             ref.updateChildValues([
                 "value": 1
             ])
@@ -78,6 +88,9 @@ class ViewController: UIViewController{
             isLightOff = false
         } else {
             ref = Database.database().reference().child("Light")
+            
+            Database.database().isPersistenceEnabled = true
+            ref.keepSynced(true)
             
             ref.updateChildValues([
                 "value": 0
@@ -92,8 +105,9 @@ class ViewController: UIViewController{
         let storageRef = storage.reference()
         
         let ref = storageRef.child("images").child("photo_2021_12_10_12_02_54.jpg")
+        
+        Database.database().isPersistenceEnabled = true
        
-
      
         imageView.sd_setImage(with: ref)
         
