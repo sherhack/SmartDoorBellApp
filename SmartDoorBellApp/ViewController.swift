@@ -17,112 +17,128 @@ import AVFoundation
 //Comment hi dude
 //Comment hi dude - Rafael
 //Created a branch-rafael
-class ViewController: UIViewController{
+class ViewController: UIViewController {
 
     var ref: DatabaseReference!
-   
+    var storage: Storage!
     
     @IBOutlet var labelDate: UILabel!
     
+    @IBOutlet var isLigthSwitch: UISwitch!
+    @IBOutlet var isDoorSwitch: UISwitch!
+    
     @IBOutlet var imageView: UIImageView!
     
-    var isCosed: Bool = true
-    var isLightOff: Bool = true
-    
-    @IBOutlet var buttonOpenDoor: UIButton!
-    
-    @IBOutlet var buttonTunLight: UIButton!
-    
-
+    @IBOutlet var imageViewDoor: UIImageView!
+    @IBOutlet var imageViewLigth: UIImageView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        ref = Database.database().reference()
+        storage = Storage.storage()
+        
         getLastImage()
        
+        
+        
        
         // Do any additional setup after loading the view.
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+       
+        ref.child("Door").observeSingleEvent(of: .value, with: { snapshot in
+             
+             let value = snapshot.value as? NSDictionary
+             let valueDoor = value?["value"] as? Int ?? 0
+             print("Value: \(valueDoor)")
+             if valueDoor == 1 {
+                 self.isDoorSwitch.setOn(true, animated:true)
+                 self.imageViewDoor.image = UIImage(named: "doorOpen")
+             } else {
+                 self.isDoorSwitch.setOn(false, animated:true)
+                 self.imageViewDoor.image = UIImage(named: "doorClose")
+             }
+             
+            
+         });
+        
+        ref.child("Light").observeSingleEvent(of: .value, with: { snapshot in
+             
+             let value = snapshot.value as? NSDictionary
+             let valueDoor = value?["value"] as? Int ?? 0
+             print("Value: \(valueDoor)")
+             if valueDoor == 1 {
+                 self.isLigthSwitch.setOn(true, animated:true)
+                 self.imageViewLigth.image = UIImage(named: "bulbOn")
+             } else {
+                 self.isLigthSwitch.setOn(false, animated:true)
+                 self.imageViewLigth.image = UIImage(named: "bulbOff")
+             }
+             
+            
+         });
+        
+        getLastImage()
+    }
    
 
-    @IBAction func closeDoor(_ sender: Any) {
-        if isCosed == true {
-            ref = Database.database().reference().child("Door")//child("Leds/led1")
-            
-            Database.database().isPersistenceEnabled = true
-            ref.keepSynced(true)
-            
-            ref.updateChildValues([
-                "value": 1
-            ])
-            buttonOpenDoor.setTitle("Door Open", for: .normal)
-            
-            isCosed = false
-        } else {
-            ref = Database.database().reference().child("Door")//child("Leds/led1")
-            
-            Database.database().isPersistenceEnabled = true
-            ref.keepSynced(true)
-            
-            ref.updateChildValues([
-                "value": 0
-            ])
-            buttonOpenDoor.setTitle("Door Closed", for: .normal)
-            
-            isCosed = true
-        }
-        
-    }
+    @IBAction func switchDoorAction(_ sender: Any) {
+        //ref = Database.database().reference().child("Door")
     
-    @IBAction func turnLight(_ sender: Any) {
-        if isLightOff == true {
-            ref = Database.database().reference().child("Light")
-            
-            Database.database().isPersistenceEnabled = true
-            ref.keepSynced(true)
-            
-            ref.updateChildValues([
+        ref.keepSynced(true)
+        
+        if isDoorSwitch.isOn {
+            ref.child("Door").updateChildValues([
                 "value": 1
             ])
-            buttonTunLight.setTitle("Light On", for: .normal)
-            isLightOff = false
+            isDoorSwitch.setOn(true, animated:true)
+            imageViewDoor.image = UIImage(named: "doorOpen")
+            self.showToast(message: "Door Opened", font: .systemFont(ofSize: 12.0))
         } else {
-            ref = Database.database().reference().child("Light")
-            
-            Database.database().isPersistenceEnabled = true
-            ref.keepSynced(true)
-            
-            ref.updateChildValues([
+            ref.child("Door").updateChildValues([
                 "value": 0
             ])
-            buttonTunLight.setTitle("Light off", for: .normal)
-            isLightOff = true
+            isDoorSwitch.setOn(false, animated:true)
+            imageViewDoor.image = UIImage(named: "doorClose")
+            self.showToast(message: "Door Closed", font: .systemFont(ofSize: 12.0))
         }
     }
     
-    func addImage() {
-        let storage = Storage.storage()
-        let storageRef = storage.reference()
+    @IBAction func switchLigthAction(_ sender: Any) {
+        //ref = Database.database().reference().child("Light")
         
-        let ref = storageRef.child("images").child("photo_2021_12_10_12_02_54.jpg")
+        ref.keepSynced(true)
         
-        Database.database().isPersistenceEnabled = true
-       
-     
-        imageView.sd_setImage(with: ref)
+        if isLigthSwitch.isOn {
+            ref.child("Light").updateChildValues([
+                "value": 1
+            ])
+            isLigthSwitch.setOn(true, animated:true)
+            imageViewLigth.image = UIImage(named: "bulbOn")
+            self.showToast(message: "Light On", font: .systemFont(ofSize: 12.0))
+        } else {
+            ref.child("Light").updateChildValues([
+                "value": 0
+            ])
+            isLigthSwitch.setOn(false, animated:true)
+            imageViewLigth.image = UIImage(named: "bulbOff")
+            self.showToast(message: "Light Off", font: .systemFont(ofSize: 12.0))
+        }
         
-     
     }
     
     func getLastImage() {
-        let storage = Storage.storage()
         let storageRef = storage.reference().child("images")
         
         var yourArray = [StorageReference]()
         
         storageRef.listAll { [self] (result, error) in
             if let error = error {
-                // ...
+                print(error)
             }
             for prefix in result.prefixes {
                 // The prefixes under storageReference.
@@ -131,15 +147,15 @@ class ViewController: UIViewController{
             }
             for item in result.items {
                 // The items under storageReference.
-                print("ITEMMMMM: \(item)")
+                //print("ITEMMMMM: \(item)")
                 //var image: StorageReference?
                 guard var image: StorageReference? = item else { return }
                 //print("AHAHAHAHAHHAHAAAH: \(String(describing: image?.name.suffix(29)))")
-                var name = String(describing: image?.name.suffix(29))
+                //var name = String(describing: image?.name.suffix(29))
                 //var year = name[NSRange(location: 7, length: 4)]
                 
-                print(getDate(image: image!.name))
-                labelDate.text = getDate(image: image!.name)
+               // print(getDate(image: image!.name))
+                labelDate.text = "Photo taken on last ring" + "\n" + "\(getDate(image: image!.name))"
                 
                 yourArray.append(image!)
             }
@@ -150,31 +166,31 @@ class ViewController: UIViewController{
     
     func getDate(image: String) -> String {
 
-    var lowerBound = image.index((image.startIndex), offsetBy: 6)
-    var upperBound = image.index((image.startIndex), offsetBy: 10)
-    var year = image[lowerBound..<upperBound]
+        var lowerBound = image.index((image.startIndex), offsetBy: 6)
+        var upperBound = image.index((image.startIndex), offsetBy: 10)
+        let year = image[lowerBound..<upperBound]
 
 
 
-    lowerBound = image.index((image.startIndex), offsetBy: 11)
-    upperBound = image.index((image.startIndex), offsetBy: 13)
-    var month = image[lowerBound..<upperBound]
+        lowerBound = image.index((image.startIndex), offsetBy: 11)
+        upperBound = image.index((image.startIndex), offsetBy: 13)
+        let month = image[lowerBound..<upperBound]
 
-    lowerBound = image.index((image.startIndex), offsetBy: 14)
-    upperBound = image.index((image.startIndex), offsetBy: 16)
-    var day = image[lowerBound..<upperBound]
+        lowerBound = image.index((image.startIndex), offsetBy: 14)
+        upperBound = image.index((image.startIndex), offsetBy: 16)
+        let day = image[lowerBound..<upperBound]
 
-    lowerBound = image.index((image.startIndex), offsetBy: 17)
-    upperBound = image.index((image.startIndex), offsetBy: 19)
-    var hour = image[lowerBound..<upperBound]
+        lowerBound = image.index((image.startIndex), offsetBy: 17)
+        upperBound = image.index((image.startIndex), offsetBy: 19)
+        let hour = image[lowerBound..<upperBound]
 
-    lowerBound = image.index((image.startIndex), offsetBy: 20)
-    upperBound = image.index((image.startIndex), offsetBy: 22)
-    var minute = image[lowerBound..<upperBound]
+        lowerBound = image.index((image.startIndex), offsetBy: 20)
+        upperBound = image.index((image.startIndex), offsetBy: 22)
+        let minute = image[lowerBound..<upperBound]
 
-    lowerBound = image.index((image.startIndex), offsetBy: 23)
-    upperBound = image.index((image.startIndex), offsetBy: 25)
-    var second = image[lowerBound..<upperBound]
+        lowerBound = image.index((image.startIndex), offsetBy: 23)
+        upperBound = image.index((image.startIndex), offsetBy: 25)
+        let second = image[lowerBound..<upperBound]
 
 
 
@@ -183,11 +199,28 @@ class ViewController: UIViewController{
 
 
 
-    let dateString = year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + second
-    return dateString
+        let dateString = year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + second
+        return dateString
     }
     
-   
+    func showToast(message : String, font: UIFont) {
+
+        let toastLabel = UILabel(frame: CGRect(x: self.view.frame.size.width/2 - 75, y: self.view.frame.size.height-150, width: 150, height: 35))
+        toastLabel.backgroundColor = UIColor.black.withAlphaComponent(0.6)
+        toastLabel.textColor = UIColor.white
+        toastLabel.font = font
+        toastLabel.textAlignment = .center;
+        toastLabel.text = message
+        toastLabel.alpha = 1.0
+        toastLabel.layer.cornerRadius = 10;
+        toastLabel.clipsToBounds  =  true
+        self.view.addSubview(toastLabel)
+        UIView.animate(withDuration: 6.0, delay: 0.1, options: .curveEaseOut, animations: {
+             toastLabel.alpha = 0.0
+        }, completion: {(isCompleted) in
+            toastLabel.removeFromSuperview()
+        })
+    }
     
 }
 

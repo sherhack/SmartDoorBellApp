@@ -14,13 +14,16 @@ import Firebase
 import FirebaseDatabase
 
 
-class LiveStreamViewController: UIViewController, WKNavigationDelegate{
+class LiveStreamViewController: UIViewController, WKNavigationDelegate, UITextFieldDelegate {
     
   
-    var ref: DatabaseReference! = Database.database().reference()
+    var ref: DatabaseReference!
 
     
+    @IBOutlet var imageViewDoor: UIImageView!
+    
     @IBOutlet var switchOutlet: UISwitch!
+    
     @IBOutlet var live: WKWebView!
     
     var screenShot = UIImage()
@@ -31,6 +34,7 @@ class LiveStreamViewController: UIViewController, WKNavigationDelegate{
     @IBOutlet var messageTextField: UITextField!
     
     var viewWebLive: WKWebView!
+    
     
     
   
@@ -60,8 +64,31 @@ class LiveStreamViewController: UIViewController, WKNavigationDelegate{
         
     }*/
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
+//    Para vir com o valor para meter no switch
+    /*override func viewDidLoad() {
+        super.viewDidLoad()
+        ref.child("Door").observeSingleEvent(of: .value, with: { snapshot in
+             
+             let value = snapshot.value as? NSDictionary
+             let valueDoor = value?["value"] as? String ?? ""
+             print("Value: \(valueDoor)")
+             if valueDoor == "1" {
+                 self.switchOutlet.setOn(true, animated:true)
+             } else {
+                 self.switchOutlet.setOn(false, animated:true)
+             }
+             
+             
+         });
+        self.view.reloadInputViews()
+        
+    }*/
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        ref = Database.database().reference()
+    
         ref.child("RaspberryIP").observeSingleEvent(of: .value, with: { snapshot in
             
             let value = snapshot.value as? NSDictionary
@@ -75,7 +102,45 @@ class LiveStreamViewController: UIViewController, WKNavigationDelegate{
             self.live.allowsBackForwardNavigationGestures = true
             self.live.navigationDelegate = self
         });
+        
+        self.messageTextField.delegate = self
+        
+        let tap = UITapGestureRecognizer(target: self, action: #selector(UIInputViewController.dismissKeyboard))
+        
+        tap.cancelsTouchesInView = false
+        view.addGestureRecognizer(tap)
+         
+        // call the 'keyboardWillShow' function when the view controller receive notification that keyboard is going to be shown
+            NotificationCenter.default.addObserver(self, selector: #selector(LiveStreamViewController.keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
+        
+        // call the 'keyboardWillHide' function when the view controlelr receive notification that keyboard is going to be hidden
+           NotificationCenter.default.addObserver(self, selector: #selector(LiveStreamViewController.keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
+        
+        
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        
+        ref.child("Door").observeSingleEvent(of: .value, with: { snapshot in
+             
+             let value = snapshot.value as? NSDictionary
+             let valueDoor = value?["value"] as? Int ?? 0
+             print("Value: \(valueDoor)")
+             if valueDoor == 1 {
+                 self.switchOutlet.setOn(true, animated:true)
+                 self.imageViewDoor.image = UIImage(named: "doorOpen")
+             } else {
+                 self.switchOutlet.setOn(false, animated:true)
+                 self.imageViewDoor.image = UIImage(named: "doorClose")
+             }
+             
+            
+         });
+        
         reload()
+    
     }
   
     
@@ -85,40 +150,40 @@ class LiveStreamViewController: UIViewController, WKNavigationDelegate{
         
         print(text)
         
-        ref.child("Audio")//child("Leds/led1")
+        //ref.child("Audio")//child("Leds/led1")
         
-        ref.updateChildValues([
-            "value": 1,
-            "phrase": text
+        ref.child("Audio").updateChildValues([
+            "phrase": text,
+            "value": 1
         ])
+        self.showToast(message: "Message Sent", font: .systemFont(ofSize: 12.0))
        
        
         
     }
     @IBAction func switchDoor(_ sender: UISwitch) {
-        ref.child("Door")//child("Leds/led1")
-    
-        
         if switchOutlet.isOn {
-            ref.updateChildValues([
+            ref.child("Door").updateChildValues([
                 "value": 1
             ])
             switchOutlet.setOn(true, animated:true)
+            imageViewDoor.image = UIImage(named: "doorOpen")
             self.showToast(message: "Door Opened", font: .systemFont(ofSize: 12.0))
         } else {
-            ref.updateChildValues([
+            ref.child("Door").updateChildValues([
                 "value": 0
             ])
             switchOutlet.setOn(false, animated:true)
+            imageViewDoor.image = UIImage(named: "doorClose")
             self.showToast(message: "Door Closed", font: .systemFont(ofSize: 12.0))
         }
        
     }
    
+
     
     func reload() {
-        ref.child("Refresh")//child("Leds/led1")
-        ref.observe(DataEventType.childChanged) { DataSnapshot in
+        ref.child("Refresh").observe(DataEventType.childChanged) { DataSnapshot in
             self.live.reload()
         }
     }
@@ -162,7 +227,7 @@ class LiveStreamViewController: UIViewController, WKNavigationDelegate{
         let layer = UIApplication.shared.keyWindow!.layer
         let scale = UIScreen.main.scale
         // Creates UIImage of same size as view
-        UIGraphicsBeginImageContextWithOptions(CGSize(width: layer.bounds.width, height: 362), false, scale);
+        UIGraphicsBeginImageContextWithOptions(CGSize(width: layer.bounds.width, height: 370), false, scale);
 
         layer.render(in: UIGraphicsGetCurrentContext()!)
         let screenshot = UIGraphicsGetImageFromCurrentImageContext()
@@ -176,6 +241,7 @@ class LiveStreamViewController: UIViewController, WKNavigationDelegate{
     
     @IBAction func takeScreenShotAndSave(_ sender: Any) {
         screenShot = self.captureScreenshot()
+        self.showToast(message: "Taking screenshot...", font: .systemFont(ofSize: 12.0))
         
 
         DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
@@ -187,6 +253,31 @@ class LiveStreamViewController: UIViewController, WKNavigationDelegate{
             self.navigationController?.pushViewController(vc, animated: true)
         }
        
+    }
+    
+    @objc func keyboardWillShow(notification: NSNotification) {
+        guard let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue else {
+           // if keyboard size is not available for some reason, dont do anything
+           return
+        }
+      
+      // move the root view up by the distance of keyboard height
+      self.view.frame.origin.y = 0 - keyboardSize.height
+    }
+    
+    @objc func keyboardWillHide(notification: NSNotification) {
+      // move back the root view origin to zero
+      self.view.frame.origin.y = 0
+    }
+  
+    @objc func dismissKeyboard() {
+        //Causes the view (or one of its embedded text fields) to resign the first responder status.
+        view.endEditing(true)
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+            self.view.endEditing(true)
+            return false
     }
     
 }

@@ -59,7 +59,8 @@ class TextRecognitionViewController: UIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
  
-        //self.ocrImageView.image = imageRecieved
+        self.ocrImageView.image = imageRecieved
+        setUpVisionTextRecognitionRequest(image: imageRecieved!)
         stopAnimating()
         
     }
