@@ -12,6 +12,7 @@ import FirebaseStorage
 import FirebaseStorageUI
 import SDWebImage
 
+import UserNotifications
 import AVKit
 import AVFoundation
 //Comment hi dude
@@ -38,13 +39,47 @@ class ViewController: UIViewController {
         ref = Database.database().reference()
         storage = Storage.storage()
         
-        getLastImage()
-       
+//        labelDate.text = ""
         
+        //getLastImage()
+       
+        let center = UNUserNotificationCenter.current()
+        
+        ref.child("Refresh").observe(DataEventType.childChanged) { DataSnapshot in
+            
+            center.requestAuthorization(options: [.alert, .sound, .badge]) { (granted, error) in
+            }
+            
+            //sTEP 2: Create notification content
+            let content = UNMutableNotificationContent()
+            content.title = "New Notification!"
+            content.body = "Someone is at the door"
+            
+            //Step3: Creat trigger
+            let date = Date().addingTimeInterval(1)
+            
+            let dateComponents = Calendar.current.dateComponents([.year, .month, .day,
+                                                                    .hour, .minute, .second], from: date)
+            
+            let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: false)
+            
+            //Step 4: create the request
+            let uuidString = UUID().uuidString
+            
+            let request = UNNotificationRequest(identifier: uuidString, content: content, trigger: trigger)
+            
+            //Step 5: Register the request
+            center.add(request) { error in
+                //handle error
+                print(error ?? "-")
+            }
+        }
         
        
         // Do any additional setup after loading the view.
     }
+    
+    
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -56,11 +91,11 @@ class ViewController: UIViewController {
              let valueDoor = value?["value"] as? Int ?? 0
              print("Value: \(valueDoor)")
              if valueDoor == 1 {
-                 self.isDoorSwitch.setOn(true, animated:true)
-                 self.imageViewDoor.image = UIImage(named: "doorOpen")
+                 self.isDoorSwitch?.setOn(true, animated:true)
+                 self.imageViewDoor?.image = UIImage(named: "doorOpen")
              } else {
-                 self.isDoorSwitch.setOn(false, animated:true)
-                 self.imageViewDoor.image = UIImage(named: "doorClose")
+                 self.isDoorSwitch?.setOn(false, animated:true)
+                 self.imageViewDoor?.image = UIImage(named: "doorClose")
              }
              
             
@@ -72,11 +107,11 @@ class ViewController: UIViewController {
              let valueDoor = value?["value"] as? Int ?? 0
              print("Value: \(valueDoor)")
              if valueDoor == 1 {
-                 self.isLigthSwitch.setOn(true, animated:true)
-                 self.imageViewLigth.image = UIImage(named: "bulbOn")
+                 self.isLigthSwitch?.setOn(true, animated:true)
+                 self.imageViewLigth?.image = UIImage(named: "bulbOn")
              } else {
-                 self.isLigthSwitch.setOn(false, animated:true)
-                 self.imageViewLigth.image = UIImage(named: "bulbOff")
+                 self.isLigthSwitch?.setOn(false, animated:true)
+                 self.imageViewLigth?.image = UIImage(named: "bulbOff")
              }
              
             
@@ -155,11 +190,11 @@ class ViewController: UIViewController {
                 //var year = name[NSRange(location: 7, length: 4)]
                 
                // print(getDate(image: image!.name))
-                labelDate.text = "Photo taken on last ring" + "\n" + "\(getDate(image: image!.name))"
+                labelDate?.text = "Photo taken on last ring" + "\n" + "\(getDate(image: image!.name))"
                 
                 yourArray.append(image!)
             }
-            imageView.sd_setImage(with: yourArray.last!)
+            imageView?.sd_setImage(with: yourArray.last!)
         }
 
     }
