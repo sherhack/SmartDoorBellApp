@@ -10,7 +10,7 @@ import Vision
 
 class TextRecognitionViewController: UIViewController {
 
-    @IBOutlet var sendDataFromTextViewButton: UIButton!
+    @IBOutlet var sendDataToAugmentedReality: UIButton!
     @IBOutlet var ocrImageView: UIImageView!
     @IBOutlet var loadTextRecognitionIndicator: UIActivityIndicatorView!
     @IBOutlet var textRecogzieView: UITextView!
@@ -62,7 +62,7 @@ class TextRecognitionViewController: UIViewController {
         self.ocrImageView.image = imageRecieved
         setUpVisionTextRecognitionRequest(image: imageRecieved!)
         stopAnimating()
-        
+        self.dismissKeyboardd()
     }
     
     @IBAction func touchCameraButton(_ sender: Any) {
@@ -216,5 +216,17 @@ extension TextRecognitionViewController: UIImagePickerControllerDelegate, UINavi
         self.ocrImageView.image = image
         
         setUpVisionTextRecognitionRequest(image: image!)
+    }
+}
+
+extension UIViewController {
+func dismissKeyboardd() {
+       let tap: UITapGestureRecognizer = UITapGestureRecognizer( target:     self, action:    #selector(UIViewController.dismissKeyboardTouchOutside))
+       tap.cancelsTouchesInView = false
+       view.addGestureRecognizer(tap)
+    }
+    
+    @objc private func dismissKeyboardTouchOutside() {
+       view.endEditing(true)
     }
 }

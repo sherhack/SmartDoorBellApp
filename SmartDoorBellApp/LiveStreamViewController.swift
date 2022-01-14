@@ -14,11 +14,13 @@ import Firebase
 import FirebaseDatabase
 
 
+
 class LiveStreamViewController: UIViewController, WKNavigationDelegate, UITextFieldDelegate {
     
   
     var ref: DatabaseReference!
 
+    var storageRef: StorageReference!
     
     @IBOutlet var imageViewDoor: UIImageView!
     
@@ -26,68 +28,18 @@ class LiveStreamViewController: UIViewController, WKNavigationDelegate, UITextFi
     
     @IBOutlet var live: WKWebView!
     
-    var screenShot = UIImage()
-    
-    //let url = URL(string: "http://10.20.246.120:8080/?action=stream")!
-    
-    
     @IBOutlet var messageTextField: UITextField!
     
     var viewWebLive: WKWebView!
     
-    
-    
-  
-    /*
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        ref.child("RaspberryIP").observeSingleEvent(of: .value, with: { snapshot in
-            
-            let value = snapshot.value as? NSDictionary
-            let ip = value?["value"] as? String ?? ""
-            print("Value: \(ip)")
-            
-            let url = URL(string: "http://\(ip):8080/?action=stream")!
-        
-            self.live.load(URLRequest(url: url))
-            self.live.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-            self.live.allowsBackForwardNavigationGestures = true
-            self.live.navigationDelegate = self
-        });
-        
-    }*/
-    
-    /*
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        reload()
-        
-    }*/
-    
-//    Para vir com o valor para meter no switch
-    /*override func viewDidLoad() {
-        super.viewDidLoad()
-        ref.child("Door").observeSingleEvent(of: .value, with: { snapshot in
-             
-             let value = snapshot.value as? NSDictionary
-             let valueDoor = value?["value"] as? String ?? ""
-             print("Value: \(valueDoor)")
-             if valueDoor == "1" {
-                 self.switchOutlet.setOn(true, animated:true)
-             } else {
-                 self.switchOutlet.setOn(false, animated:true)
-             }
-             
-             
-         });
-        self.view.reloadInputViews()
-        
-    }*/
+    var screenShot = UIImage()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         ref = Database.database().reference()
+        
+        storageRef = Storage.storage().reference()
     
         ref.child("RaspberryIP").observeSingleEvent(of: .value, with: { snapshot in
             
@@ -133,7 +85,7 @@ class LiveStreamViewController: UIViewController, WKNavigationDelegate, UITextFi
                  self.imageViewDoor.image = UIImage(named: "doorOpen")
              } else {
                  self.switchOutlet.setOn(false, animated:true)
-                 self.imageViewDoor.image = UIImage(named: "doorClose")
+                 self.imageViewDoor.image = UIImage(named: "doorClosed")
              }
              
             
@@ -174,7 +126,7 @@ class LiveStreamViewController: UIViewController, WKNavigationDelegate, UITextFi
                 "value": 0
             ])
             switchOutlet.setOn(false, animated:true)
-            imageViewDoor.image = UIImage(named: "doorClose")
+            imageViewDoor.image = UIImage(named: "doorClosed")
             self.showToast(message: "Door Closed", font: .systemFont(ofSize: 12.0))
         }
        
@@ -227,10 +179,14 @@ class LiveStreamViewController: UIViewController, WKNavigationDelegate, UITextFi
         let layer = UIApplication.shared.keyWindow!.layer
         let scale = UIScreen.main.scale
         // Creates UIImage of same size as view
+        
         UIGraphicsBeginImageContextWithOptions(CGSize(width: layer.bounds.width, height: 370), false, scale);
 
         layer.render(in: UIGraphicsGetCurrentContext()!)
         let screenshot = UIGraphicsGetImageFromCurrentImageContext()
+        
+        //let cropedImage = cropImage(screenshot!, viewWidth: layer.bounds.width, viewHeight: layer.bounds.height)
+        
         UIGraphicsEndImageContext()
         // THIS IS TO SAVE SCREENSHOT TO PHOTOS
         UIImageWriteToSavedPhotosAlbum(screenshot!, nil, nil, nil)
@@ -243,7 +199,15 @@ class LiveStreamViewController: UIViewController, WKNavigationDelegate, UITextFi
         screenShot = self.captureScreenshot()
         self.showToast(message: "Taking screenshot...", font: .systemFont(ofSize: 12.0))
         
-
+       
+        guard let imageData = screenShot.pngData() else {
+            return
+        }
+        
+        //Send screenshot to firestore
+        uploadScreenShotToFirestoreStorage(imageData, screenShot)
+        
+        
         DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
             
             let vc = self.storyboard?.instantiateViewController(withIdentifier: "ocrView") as! TextRecognitionViewController
@@ -280,4 +244,69 @@ class LiveStreamViewController: UIViewController, WKNavigationDelegate, UITextFi
             return false
     }
     
+    func uploadScreenShotToFirestoreStorage(_ pngData: Data, _ screenshot: UIImage) {
+        
+        let date = Date()
+        let format = DateFormatter()
+        format.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        let timestamp = format.string(from: date)
+        
+        let imageName:String = String("\(timestamp).png")
+        
+        if let uploadData = screenshot.jpegData(compressionQuality: 0.5) {
+            storageRef.child("orders/").child(imageName).putData(uploadData, metadata: nil, completion: { _, error in
+                guard error == nil else {
+                    print("Failed to upload")
+                    return
+                }
+            })
+        }
+
+            
+    }
+    
+    /*
+    func cropImage(_ inputImage: UIImage, viewWidth: CGFloat, viewHeight: CGFloat) -> UIImage?
+    {
+        let sideLength = min(
+            inputImage.size.width,
+            inputImage.size.height
+        )
+
+        // Determines the x,y coordinate of a centered
+        // sideLength by sideLength square
+        let sourceSize = inputImage.size
+        let xOffset = (sourceSize.width - sideLength) / 2.0
+        let yOffset = (sourceSize.height - sideLength) / 2.0
+
+        // The cropRect is the rect of the image to keep,
+        // in this case centered
+        let cropRect = CGRect(
+            x: xOffset,
+            y: yOffset,
+            width: sideLength,
+            height: sideLength
+        ).integral
+        
+        let imageViewScale = max(inputImage.size.width / viewWidth,
+                                 inputImage.size.height / viewHeight)
+
+        // Scale cropRect to handle images larger than shown-on-screen size
+        let cropZone = CGRect(x:cropRect.origin.x,
+                              y:cropRect.origin.y,
+                              width:cropRect.size.width ,
+                              height:cropRect.size.height)
+
+        // Perform cropping in Core Graphics
+        guard let cutImageRef: CGImage = inputImage.cgImage?.cropping(to:cropZone)
+        else {
+            return nil
+        }
+
+        // Return image to UIImage
+        let croppedImage: UIImage = UIImage(cgImage: cutImageRef)
+        return croppedImage
+    }*/
 }
+
+

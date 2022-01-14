@@ -16,7 +16,7 @@ struct Variables {
     static var numberOfRows = 0
 }
 
-class NotificationsTableViewController: UITableViewController, UISearchBarDelegate {
+class NotificationsTableViewController: UITableViewController {
     
     @IBOutlet var filterButtons: UISegmentedControl!
     
@@ -55,6 +55,8 @@ class NotificationsTableViewController: UITableViewController, UISearchBarDelega
     }
     
     override func viewDidLoad() {
+        
+
         super.viewDidLoad()
         filteredData = []
         Task { [weak self] in
@@ -107,13 +109,9 @@ class NotificationsTableViewController: UITableViewController, UISearchBarDelega
                     print(error)
                 }
                 for item in result.items {
-                    // The items under storageReference.
-                    //print("ITEMMMMM: \(item)")
-                    //var image: StorageReference?
-                    guard let image: StorageReference? = item else { return }
-                    //print("AHAHAHAHAHHAHAAAH: \(String(describing: image?.name.suffix(29)))")
                     
-
+                    guard let image: StorageReference? = item else { return }
+                    
                     arrayYears.append(getDate(image: image!.name))
                     
                     //itemsArray.append(item)
@@ -126,28 +124,27 @@ class NotificationsTableViewController: UITableViewController, UISearchBarDelega
                 cell.personImage.sd_setImage(with: itemArray[indexPath.row])*/
                 
                 var list = [StorageReference]()
+                var listNamesFiltered = [String]()
                 switch dataFilter {
                     case 0:
-                        list = itemArray
-                        list.reverse()
+                        list = itemArray.reversed()
+                        listNamesFiltered = arrayYears.reversed()
                     case 1:
                         list = itemArray
+                        listNamesFiltered = arrayYears
                     default:
-                        list = itemArray
-                        list.reverse()
+                        list = itemArray.reversed()
+                        listNamesFiltered = arrayYears.reversed()
+                        
                         
                 }
-                cell.titleText.text = arrayYears[indexPath.row]
+                cell.titleText.text = listNamesFiltered[indexPath.row]
                 cell.personImage.sd_setImage(with: list[indexPath.row])
                 
-                
             }
-            
         }
-        if cell != nil {
-            return cell
-        }
-        return UITableViewCell()
+        
+       return cell
     }
     
 

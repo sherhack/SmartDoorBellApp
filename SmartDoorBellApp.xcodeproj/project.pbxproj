@@ -20,6 +20,8 @@
 		C07B6A6A2742B1BC001B4CD9 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C07B6A682742B1BC001B4CD9 /* LaunchScreen.storyboard */; };
 		C07B6A762742B239001B4CD9 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C07B6A752742B239001B4CD9 /* GoogleService-Info.plist */; };
 		C080D08E2771302C00790982 /* Ocr3DViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C080D08D2771302C00790982 /* Ocr3DViewController.swift */; };
+		C0D5D903278E409600071897 /* OrdersTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0D5D902278E409600071897 /* OrdersTableViewCell.swift */; };
+		C0DDC419278E3CB6007A8771 /* OrdersTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0DDC418278E3CB6007A8771 /* OrdersTableViewController.swift */; };
 		C0E330C1275A3DE500925283 /* LiveStreamViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0E330C0275A3DE400925283 /* LiveStreamViewController.swift */; };
 /* End PBXBuildFile section */
 
@@ -41,6 +43,8 @@
 		C07B6A6B2742B1BC001B4CD9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C07B6A752742B239001B4CD9 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		C080D08D2771302C00790982 /* Ocr3DViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Ocr3DViewController.swift; sourceTree = "<group>"; };
+		C0D5D902278E409600071897 /* OrdersTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrdersTableViewCell.swift; sourceTree = "<group>"; };
+		C0DDC418278E3CB6007A8771 /* OrdersTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrdersTableViewController.swift; sourceTree = "<group>"; };
 		C0E330C0275A3DE400925283 /* LiveStreamViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveStreamViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -108,6 +112,8 @@
 				C04A9DD327693724009257AE /* NotificationsTableViewController.swift */,
 				C04A9DD7276A2E2D009257AE /* StructTest.swift */,
 				C080D08D2771302C00790982 /* Ocr3DViewController.swift */,
+				C0DDC418278E3CB6007A8771 /* OrdersTableViewController.swift */,
+				C0D5D902278E409600071897 /* OrdersTableViewCell.swift */,
 			);
 			path = SmartDoorBellApp;
 			sourceTree = "<group>";
@@ -249,9 +255,11 @@
 				C0E330C1275A3DE500925283 /* LiveStreamViewController.swift in Sources */,
 				C07B6A622742B1BA001B4CD9 /* ViewController.swift in Sources */,
 				C04A9DD8276A2E2E009257AE /* StructTest.swift in Sources */,
+				C0DDC419278E3CB6007A8771 /* OrdersTableViewController.swift in Sources */,
 				C04A9DDC276BE214009257AE /* TextRecognitionViewController.swift in Sources */,
 				C080D08E2771302C00790982 /* Ocr3DViewController.swift in Sources */,
 				C04A9DD427693724009257AE /* NotificationsTableViewController.swift in Sources */,
+				C0D5D903278E409600071897 /* OrdersTableViewCell.swift in Sources */,
 				C07B6A5E2742B1BA001B4CD9 /* AppDelegate.swift in Sources */,
 				C07B6A602742B1BA001B4CD9 /* SceneDelegate.swift in Sources */,
 				C04A9DD227693557009257AE /* NotificationsTableViewCell.swift in Sources */,

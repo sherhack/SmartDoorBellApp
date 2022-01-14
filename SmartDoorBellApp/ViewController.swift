@@ -52,8 +52,8 @@ class ViewController: UIViewController {
             
             //sTEP 2: Create notification content
             let content = UNMutableNotificationContent()
-            content.title = "New Notification!"
-            content.body = "Someone is at the door"
+            content.title = "RING, RING!"
+            content.body = "Someone is at the door!"
             
             //Step3: Creat trigger
             let date = Date().addingTimeInterval(1)
@@ -73,12 +73,13 @@ class ViewController: UIViewController {
                 //handle error
                 print(error ?? "-")
             }
+            self.getLastImage()
+            
         }
         
        
         // Do any additional setup after loading the view.
     }
-    
     
     
     override func viewWillAppear(_ animated: Bool) {
@@ -95,7 +96,7 @@ class ViewController: UIViewController {
                  self.imageViewDoor?.image = UIImage(named: "doorOpen")
              } else {
                  self.isDoorSwitch?.setOn(false, animated:true)
-                 self.imageViewDoor?.image = UIImage(named: "doorClose")
+                 self.imageViewDoor?.image = UIImage(named: "doorClosed")
              }
              
             
@@ -138,7 +139,7 @@ class ViewController: UIViewController {
                 "value": 0
             ])
             isDoorSwitch.setOn(false, animated:true)
-            imageViewDoor.image = UIImage(named: "doorClose")
+            imageViewDoor.image = UIImage(named: "doorClosed")
             self.showToast(message: "Door Closed", font: .systemFont(ofSize: 12.0))
         }
     }
@@ -256,6 +257,10 @@ class ViewController: UIViewController {
             toastLabel.removeFromSuperview()
         })
     }
+    
+    
+    
+   
     
 }
 

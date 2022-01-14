@@ -51,28 +51,36 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
     
     func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
         
-        guard var rootViewController = (UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate)?.window?.rootViewController else {
+       /* guard var rootViewController = (UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate)?.window?.rootViewController else {
             return
-        }
+        }*/
+        
+        let userInfo = response.notification.request.content.userInfo
+            if let targetValue = userInfo["target"] as? String, targetValue == "value"
+            {
+               // coordinateToSomeVC()
+            }
+        /*
         
     
-        //let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
         
         // instantiate the view controller from storyboard
-        /*if  let liveStreamVC = storyboard.instantiateViewController(withIdentifier: "LiveStreamView") as? LiveStreamViewController {
+        if  let liveStreamVC = storyboard.instantiateViewController(withIdentifier: "LiveStreamView") as? LiveStreamViewController {
 
-            rootViewController = liveStreamVC
+            //rootViewController = liveStreamVC
             // set the view controller as root
            
             rootViewController.navigationController?.pushViewController(liveStreamVC, animated: true)
             
 
-        }*/
+        }
         
+        /*
         let rootViewControlle = rootViewController as! UINavigationController
             let mainStoryboard = UIStoryboard(name: "Main", bundle: nil)
             let profileViewController = mainStoryboard.instantiateViewController(withIdentifier: "LiveStreamView") as! LiveStreamViewController
-            rootViewControlle.pushViewController(profileViewController, animated: true)
+            rootViewControlle.pushViewController(profileViewController, animated: true)*/*/
         
         
         completionHandler()
@@ -81,3 +89,4 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
     
 
 }
+
